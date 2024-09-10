@@ -16,9 +16,19 @@
 
 .photo_content {
   position: fixed;
-  bottom: 10vh;
+  bottom: 5vh;
   right: var(--spacing-large);
   width: calc(100% - (var(--spacing-large) * 2));
+  z-index: 10;
+}
+
+.photo_navigation {
+  position: fixed;
+  bottom: -50px;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 @media (orientation: landscape) {

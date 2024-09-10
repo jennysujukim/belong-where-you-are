@@ -1,25 +1,34 @@
-.header {
+.header_content_left {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem var(--spacing-large);
+  left: var(--spacing-large);
+  top: 1rem;
+  z-index: 10;
+}
+
+.header_content_right {
+  position: fixed;
+  right: var(--spacing-large);
+  top: 1rem;
+  z-index: 10;
 }
 
 .logo_container {
   text-align: center;
+  position: fixed;
+  top: 1rem;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.logo {
-  font-size: 3rem;
-  font-weight: 700;
+.logo { 
+  width: 150px;
+  height: auto;
 }
 
 .logo_title {
   font-size: 0.8rem;
-  font-weight: 300;
+  font-weight: 500;
   text-transform: uppercase;
 }

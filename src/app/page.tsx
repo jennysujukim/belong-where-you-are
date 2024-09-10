@@ -1,13 +1,16 @@
 import React from "react";
 import Image from "next/image";
 import styles from "./page.module.css";
-import { getPhoto } from "@/lib/api";
+import { getAllPhotos, getPhoto } from "@/lib/api";
 // components
 import Header from "./components/Header";
 import Descriptions from "./components/Descriptions";
+import Navigation from "./components/Navigation";
 
 export default async function Home() {
 
+  const photos = await getAllPhotos();
+  const numberOfPhotos = photos.length;
   const photo = await getPhoto(2);
 
   const images = photo.image.url;
@@ -24,7 +27,9 @@ export default async function Home() {
             description={photo.description}
           />
         </div>
-
+        <div className={styles.photo_navigation}>
+          <Navigation counts={numberOfPhotos} />
+        </div>
         <div className={styles.image_container}>
           <Image 
             className={styles.image}
