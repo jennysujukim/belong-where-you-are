@@ -40,13 +40,10 @@ function extractPhotoEntries(fetchResponse: FetchResponse) {
   return fetchResponse?.data?.photoCollection?.items;
 }
 
-export async function getAllPhotos(
-  limit = 3,
-  isDraftMode = false
-) {
+export async function getAllPhotos(isDraftMode = false) {
   const photos = await fetchGraphQL(
     `query {
-        photoCollection(where:{slug_exists: true}, order: date_DESC, limit: ${limit}, preview: ${
+        photoCollection(where:{slug_exists: true}, order: date_DESC, preview: ${
       isDraftMode ? "true" : "false"
     }) {
           items {
@@ -60,12 +57,12 @@ export async function getAllPhotos(
 }
 
 export async function getPhoto(
-  slug: string,
+  id: number,
   isDraftMode = false
 ) {
   const photos = await fetchGraphQL(
     `query {
-        photoCollection(where:{slug: "${slug}"}, limit: 1, preview: ${
+        photoCollection(where:{id: ${id}}, limit: 1, preview: ${
       isDraftMode ? "true" : "false"
     }) {
           items {

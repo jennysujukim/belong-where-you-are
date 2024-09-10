@@ -1,21 +1,39 @@
+import React from "react";
 import Image from "next/image";
 import styles from "./page.module.css";
-import { getAllPhotos } from "@/lib/api";
+import { getPhoto } from "@/lib/api";
+// components
+import Header from "./components/Header";
+import Descriptions from "./components/Descriptions";
 
 export default async function Home() {
 
-  const photos = await getAllPhotos();
+  const photo = await getPhoto(2);
+
+  const images = photo.image.url;
 
   return (
     <div className={styles.page}>
+      <Header />
       <main className={styles.main}>
-        {photos.map((photo, index) => (
-          <div key={index}>
-            <p>{photo.date}</p>
-            <Image src={photo.image.url} width={500} height={500} alt="image test" />
-          </div>
-        ))
-        }
+        <div className={styles.photo_content}>
+          <Descriptions 
+            id={photo.id}
+            date={photo.date}
+            location={photo.location}
+            description={photo.description}
+          />
+        </div>
+
+        <div className={styles.image_container}>
+          <Image 
+            className={styles.image}
+            src={`${images}?q=100`} 
+            width={2000} 
+            height={500} 
+            alt="images"
+          />
+        </div>
       </main>
     </div>
   );

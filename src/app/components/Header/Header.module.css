@@ -1,0 +1,25 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem var(--spacing-large);
+}
+
+.logo_container {
+  text-align: center;
+}
+
+.logo {
+  font-size: 3rem;
+  font-weight: 700;
+}
+
+.logo_title {
+  font-size: 0.8rem;
+  font-weight: 300;
+  text-transform: uppercase;
+}
