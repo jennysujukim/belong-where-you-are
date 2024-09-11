@@ -1,17 +1,15 @@
 "use client"
 
 import { useState } from "react"
+import { Photo } from "@/lib/types"
 // styles
 import styles from './Descriptions.module.css'
 
 type DescriptionsProps = {
-  id: number;
-  date: string;
-  location: string;
-  description: string;
+  photos: Photo;
 }
 
-export default function Descriptions({ id, date, location, description }: DescriptionsProps) {
+export default function Descriptions({ photos }: DescriptionsProps) {
   
   const [ isOpen, setIsOpen ] = useState<boolean>(false)
 
@@ -25,7 +23,7 @@ export default function Descriptions({ id, date, location, description }: Descri
     setIsOpen(false)
   }
 
-  const formattedId = id.toString().padStart(2, '0');
+  const formattedId = photos.id.toString().padStart(2, '0');
   
   return (
     <div 
@@ -38,11 +36,11 @@ export default function Descriptions({ id, date, location, description }: Descri
         <div className={styles.content}>
           <div className={styles.content_main}>
             <span className={styles.id}>{formattedId}</span>
-            <p className={styles.location}>{location}</p>
-            <p className={styles.date}>{date}</p>
+            <p className={styles.location}>{photos.location}</p>
+            <p className={styles.date}>{photos.date}</p>
           </div>
           <div className={styles.content_description}>
-            <p>{description}</p>
+            <p>{photos.description}</p>
           </div>
         </div>
       }

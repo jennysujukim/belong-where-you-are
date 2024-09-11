@@ -15,6 +15,7 @@ export default function Header() {
           height={100} 
           alt="logo"
           className={styles.logo}
+          draggable="false"
         />
         <h1 className={styles.logo_title}>Belong where you are</h1>
       </div>

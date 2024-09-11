@@ -1,0 +1,28 @@
+.images {
+  width: 100vw;
+  height: 100%;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  flex-direction: column;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+}
+
+.image_container {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+@media (orientation: landscape) {
+  .image_container, .image {
+    min-height: 100vh;
+  }
+}
+
+@media (orientation: portrait) {
+  .image_container, .image {
+    min-height: 100vh;
+  }
+}

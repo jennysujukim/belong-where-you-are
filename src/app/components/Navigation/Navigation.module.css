@@ -18,13 +18,18 @@
   top: 50%;
   left: 50%;
   transform-origin: 13px 130px;
+  cursor: pointer;
 }
 
 .id {
   font-size: 1.5rem;
   font-weight: 600;
   border-radius: 50%;
-  cursor: pointer;
+}
+
+.indicator:hover .id {
+  font-weight: 900;
+  
 }
 
 .id_line {
