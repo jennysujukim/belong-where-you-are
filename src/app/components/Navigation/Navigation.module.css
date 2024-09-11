@@ -18,7 +18,9 @@
   top: 50%;
   left: 50%;
   transform-origin: 13px 130px;
+  /* transform-origin: 0px -120px; */
   cursor: pointer;
+  opacity: 0.4;
 }
 
 .id {
@@ -36,4 +38,8 @@
   width: 0.1rem;
   height: 5rem;
   background: var(--red);
+}
+
+.indicator.active {
+  opacity: 1;
 }

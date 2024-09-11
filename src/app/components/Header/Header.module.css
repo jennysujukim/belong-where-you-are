@@ -1,21 +1,27 @@
-.header_content_left {
+.header {
+  background: rgba(1, 1, 1, 0.2);
+}
+
+.header_content_left, .header_content_right {
   position: fixed;
-  left: var(--spacing-large);
-  top: 1rem;
+  top: var(--spacing-large);
   z-index: 10;
+  user-select: none;
+  text-transform: uppercase;
+}
+
+.header_content_left {
+  left: var(--spacing-large);
 }
 
 .header_content_right {
-  position: fixed;
   right: var(--spacing-large);
-  top: 1rem;
-  z-index: 10;
 }
 
 .logo_container {
   text-align: center;
   position: fixed;
-  top: 1rem;
+  top: var(--spacing-large);
   left: 0;
   right: 0;
   margin-left: auto;
@@ -23,7 +29,7 @@
 }
 
 .logo { 
-  width: 150px;
+  width: 120px;
   height: auto;
 }
 
@@ -31,4 +37,5 @@
   font-size: 0.8rem;
   font-weight: 500;
   text-transform: uppercase;
+  user-select: none;
 }

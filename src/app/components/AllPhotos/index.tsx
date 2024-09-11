@@ -1,23 +1,22 @@
 "use client"
+
 import { useRef, useEffect, useState } from "react";
 import Image from "next/image";
 import { Photo } from "@/lib/types"
-
 // styles 
 import styles from './AllPhotos.module.css'
 
 type AllPhotosProp = {
   photos: Photo[];
+  setActiveId: (id: number | null) => void;
 }
 
-export default function AllPhotos({ photos }: AllPhotosProp) {
+export default function AllPhotos({ photos, setActiveId }: AllPhotosProp) {
 
-  const [activeId, setActiveId] = useState<string | null>(null); 
   const targetRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
-
-    if (targetRefs.current.length === 0) return; 
+    if (targetRefs.current.length === 0) return;
 
     const options = {
       root: null,
@@ -29,34 +28,24 @@ export default function AllPhotos({ photos }: AllPhotosProp) {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           const id = entry.target.getAttribute("id");
-          if (id) {
-            setActiveId(id)
-          }
+          if (id) { setActiveId(parseInt(id.replace("photo_", ""), 10)) }
         }
-      });
-    };
+      })
+    }
 
-    const observer = new IntersectionObserver(observerCallback, options);
+    const observer = new IntersectionObserver(observerCallback, options)
   
     targetRefs.current.forEach((ref) => {
-      if (ref) {
-        observer.observe(ref);
-      }
-    });
+      if (ref) { observer.observe(ref) }
+    })
 
     return () => {
       targetRefs.current.forEach((ref) => {
-        if (ref) {
-          observer.unobserve(ref);
-        }
-      });
-    };
+        if (ref) { observer.unobserve(ref) }
+      })
+    }
 
   }, [photos])
-
-  useEffect(() => {
-    console.log('this is activeID:', activeId)
-  }, [activeId]);
 
   return (
     <div className={styles.images}>
