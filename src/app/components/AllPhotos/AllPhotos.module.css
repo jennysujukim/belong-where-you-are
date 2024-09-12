@@ -1,0 +1,30 @@
+.images_wrapper {
+  overflow: hidden;
+}
+
+.images_container {
+  transition: all 500ms ease-in-out;
+  scroll-snap-type: y mandatory;
+}
+
+.image_container {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+@media (orientation: landscape) {
+  .image_container, .image {
+    min-height: 100vh;
+  }
+}
+
+@media (orientation: portrait) {
+  .image_container, .image {
+    min-height: 100vh;
+  }
+}

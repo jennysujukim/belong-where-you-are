@@ -1,17 +1,16 @@
 "use client"
 
 import { useState } from "react"
+import { Photo } from "@/lib/types"
 // styles
 import styles from './Descriptions.module.css'
 
 type DescriptionsProps = {
-  id: number;
-  date: string;
-  location: string;
-  description: string;
+  photos: Photo[];
+  activeId: number | null;
 }
 
-export default function Descriptions({ id, date, location, description }: DescriptionsProps) {
+export default function Descriptions({ photos, activeId }: DescriptionsProps) {
   
   const [ isOpen, setIsOpen ] = useState<boolean>(false)
 
@@ -21,11 +20,11 @@ export default function Descriptions({ id, date, location, description }: Descri
     ), 500)
   }
 
-  const handleClose = () => {
-    setIsOpen(false)
-  }
+  const handleClose = () => { setIsOpen(false) }
 
-  const formattedId = id.toString().padStart(2, '0');
+
+  const activePhoto = photos.find((photo) => (photo.id === activeId))
+  const formattedId = activePhoto?.id.toString().padStart(2, '0');
   
   return (
     <div 
@@ -34,15 +33,15 @@ export default function Descriptions({ id, date, location, description }: Descri
       className={styles.container}
     >
       <p className={styles.cta}>Hover to read more.</p>
-      {isOpen &&
+      {activePhoto && isOpen &&
         <div className={styles.content}>
           <div className={styles.content_main}>
             <span className={styles.id}>{formattedId}</span>
-            <p className={styles.location}>{location}</p>
-            <p className={styles.date}>{date}</p>
+            <p className={styles.location}>{activePhoto.location}</p>
+            <p className={styles.date}>{activePhoto.date}</p>
           </div>
           <div className={styles.content_description}>
-            <p>{description}</p>
+            <p>{activePhoto.description}</p>
           </div>
         </div>
       }
