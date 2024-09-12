@@ -15,6 +15,7 @@ export default function Header() {
           height={100} 
           alt="logo"
           className={styles.logo}
+          draggable="false"
         />
         <h1 className={styles.logo_title}>Belong where you are</h1>
       </div>
@@ -26,7 +27,7 @@ export default function Header() {
           @JENNYKIM
         </Link>
       </span>
-      <span className={styles.header_content_right}>With Fujifilm Quicksnap</span>
+      <span className={styles.header_content_right}>With Fuji Quicksnap</span>
     </header>
   )
 }

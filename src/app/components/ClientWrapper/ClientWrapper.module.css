@@ -1,0 +1,23 @@
+.photo_content {
+  position: fixed;
+  bottom: 5vh;
+  right: var(--spacing-large);
+  width: calc(100% - (var(--spacing-large) * 2));
+  z-index: 20;
+}
+
+.photo_navigation {
+  position: fixed;
+  bottom: -170px;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  transition: all 300ms ease-in-out;
+  z-index: 10;
+}
+
+.photo_navigation:hover {
+  bottom: -100px;
+  transform: scale(1.1);
+}
