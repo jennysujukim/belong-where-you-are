@@ -11,8 +11,11 @@ type NavigationProps = {
 
 export default function Navigation({ photos, counts, activeId, handleClick }: NavigationProps) {
 
+  const activeIndex = photos.findIndex((photo) => photo.id === activeId);
+  const rotationDegree = activeIndex !== -1 ? -(activeIndex * (360 / counts)) : 0; 
+
   return (
-    <div className={styles.container}>
+    <div className={styles.container} style={{ transform: `rotate(${rotationDegree}deg)`}}>
       {photos.map((photo, index) => (
         <div 
           onClick={() => handleClick(photo.id)}
@@ -23,7 +26,7 @@ export default function Navigation({ photos, counts, activeId, handleClick }: Na
           <div className={styles.id}>
             {photo.id.toString().padStart(2, '0')}
           </div>
-          <div className={styles.id_line}></div>
+          {/* <div className={styles.id_line}></div> */}
         </div>
       ))}
     </div>

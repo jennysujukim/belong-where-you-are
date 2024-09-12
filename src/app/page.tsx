@@ -14,7 +14,7 @@ export default async function Home() {
   return (
     <div className={styles.page}>
       <Header />
-      <main className={styles.main}>
+      <main>
         <ClientWrapper photos={sortedPhotos} />
       </main>
     </div>

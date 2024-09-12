@@ -1,16 +1,18 @@
-.images {
-  width: 100vw;
-  height: 100%;
-  display: flex;
-  justify-content: start;
-  align-items: center;
-  flex-direction: column;
-  overflow-x: hidden;
-  overflow-y: scroll;
+.images_wrapper {
+  overflow: hidden;
+}
+
+.images_container {
+  transition: all 500ms ease-in-out;
   scroll-snap-type: y mandatory;
 }
 
 .image_container {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   scroll-snap-align: start;
   scroll-snap-stop: always;
 }
