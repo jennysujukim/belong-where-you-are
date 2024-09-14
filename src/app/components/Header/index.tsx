@@ -21,23 +21,23 @@ export default function Header({ photos, handleNavOpen, navOpen, handleNavClickT
   return (
     <header className={navOpen ? `${styles.header} ${styles.open}` : styles.header}>
       {navOpen &&
-      <div className={styles.photos_container}>
-        {photos.map((photo, index) => (
-          <div 
-            key={index}
-            className={styles.photo_container}
-          >
-            <Image 
-              className={styles.photo}
-              src={photo.image.url}
-              width={100}
-              height={100}
-              alt={`image of ${photo.slug}`}
-              onClick={() => handleNavClickToView(photo.id)}
-            />
-          </div>
-        ))}
-      </div>
+        <div className={styles.photos_container}>
+          {photos.map((photo, index) => (
+            <div 
+              key={index}
+              className={styles.photo_container}
+            >
+              <Image 
+                className={styles.photo}
+                src={photo.image.url}
+                width={100}
+                height={100}
+                alt={`image of ${photo.slug}`}
+                onClick={() => handleNavClickToView(photo.id)}
+              />
+            </div>
+          ))}
+        </div>
       }
       <div className={styles.icons_container}>
         {navOpen ?
@@ -54,8 +54,6 @@ export default function Header({ photos, handleNavOpen, navOpen, handleNavClickT
           />
         }
       </div>
-
-
       <div className={styles.logo_container}>
         <Image 
           src={logo} 
@@ -67,7 +65,7 @@ export default function Header({ photos, handleNavOpen, navOpen, handleNavClickT
         />
         <h1 className={styles.logo_title}>Belong where you are</h1>
       </div>
-      <span className={styles.header_content_left}>By&nbsp;
+      <span className={navOpen ?`${styles.header_content_left} ${styles.open}` : styles.header_content_left}>By&nbsp;
         <Link 
           href="https://seojeongkim.com" 
           target="_blank"
@@ -75,7 +73,7 @@ export default function Header({ photos, handleNavOpen, navOpen, handleNavClickT
           @JENNYKIM
         </Link>
       </span>
-      <span className={styles.header_content_right}>With Fuji Quicksnap</span>
+      <span className={navOpen ? `${styles.header_content_right} ${styles.open}` : styles.header_content_right}>With Fuji Quicksnap</span>
     </header>
   )
 }

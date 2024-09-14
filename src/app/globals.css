@@ -2,11 +2,14 @@
   --white: #ffffff;
   --black: #000000;
   --red: #ff002b;
+  --grey: #979797;
   --breakpoint-medium: 768px;
   --breakpoint-large: 1024px;
   --spacing-medium: 1rem;
   --spacing-large: 2rem;
   --headerbar-height: 25px;
+  --indicator-size-medium: 250px;
+  --indicator-size-large: 300px;
 }
 
 html,
@@ -21,7 +24,7 @@ body {
 body {
   font-family: var(--font-hankenGrotesk);
   background-color: var(--white);
-  color: var(--red);
+  color: var(--black);
   line-height: 1.4;
 }
 
