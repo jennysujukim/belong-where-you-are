@@ -11,9 +11,13 @@ type AllPhotosProp = {
   setActiveId: (id: number | null) => void;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   open: boolean;
+  navOpen: boolean;
+  setNavOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  currentIndex: number | null;
+  handleClickToNextSlide: () => void;
 }
 
-export default function AllPhotos({ photos, setActiveId, setOpen, open }: AllPhotosProp) {
+export default function AllPhotos({ photos, setActiveId, setOpen, currentIndex, handleClickToNextSlide }: AllPhotosProp) {
 
   // GET CURRENT PHOTOID //
   const targetRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -53,101 +57,6 @@ export default function AllPhotos({ photos, setActiveId, setOpen, open }: AllPho
 
   }, [photos])
 
-  // SCROLL INTERACTION //
-  // const [ currentIndex, setCurrentIndex ] = useState<number>(0)
-  // const [scrolling, setScrolling] = useState<boolean>(false)
-
-  // const prevSlide = () => {
-  //   setCurrentIndex((prev) => (prev === 0 ? photos.length - 1 : prev - 1));
-  // };
-
-  // const nextSlide = () => {
-  //   setCurrentIndex((prev) => (prev === photos.length - 1 ? 0 : prev + 1));
-  // };
-
-  // const handleScroll = (event: WheelEvent) => {
-  //   if (scrolling) return;
-
-  //   if (event.deltaY > 0) {
-  //     nextSlide();
-  //   } else {
-  //     prevSlide();
-  //   }
-
-  //   setTimeout(() => setScrolling(false), 1200);
-  // };
-
-  // useEffect(() => {
-  //   if (!open) {
-  //     window.addEventListener('wheel', handleScroll);
-  //   } else {
-  //     window.removeEventListener('wheel', handleScroll);
-  //   }
-
-  //   return () => {
-  //     window.removeEventListener('wheel', handleScroll);
-  //   };
-  // }, [scrolling, open]);
-
-  const [ currentIndex, setCurrentIndex ] = useState<number>(0);
-  const [scrolling, setScrolling] = useState<boolean>(false);
-
-  // Throttle function for smooth scrolling
-  const throttle = (func: (...args: any[]) => void, delay: number) => {
-    let lastCall = 0;
-    return (...args: any[]) => {
-      const now = new Date().getTime();
-      if (now - lastCall < delay) return;
-      lastCall = now;
-      func(...args);
-    };
-  };
-
-  const prevSlide = () => {
-    setCurrentIndex((prev) => (prev === 0 ? photos.length - 1 : prev - 1));
-  };
-
-  const nextSlide = () => {
-    setCurrentIndex((prev) => (prev === photos.length - 1 ? 0 : prev + 1));
-  };
-
-  const handleScroll = (event: WheelEvent) => {
-    if (scrolling || open) return;
-
-    setScrolling(true);
-
-    if (event.deltaY > 0) {
-      nextSlide();
-    } else {
-      prevSlide();
-    }
-
-    setTimeout(() => setScrolling(false), 300); // shorter delay
-  };
-
-  // Add event listener with throttling
-  useEffect(() => {
-    const throttledScroll = throttle(handleScroll, 300);
-
-    if (!open) {
-      window.addEventListener('wheel', throttledScroll);
-    } else {
-      window.removeEventListener('wheel', throttledScroll);
-    }
-
-    return () => {
-      window.removeEventListener('wheel', throttledScroll);
-    };
-  }, [scrolling, open]);
-
-  const handleClickToNextSlide = () => {
-    if(open) {
-      return;
-    } else {
-      nextSlide()
-    }
-  }
-
   return (
     <div 
       className={styles.images_wrapper} 
@@ -155,7 +64,7 @@ export default function AllPhotos({ photos, setActiveId, setOpen, open }: AllPho
     >
       <div 
         className={styles.images_container} 
-        style={{ transform: `translateY(-${currentIndex * 100}vh)`}}
+        style={{ transform: `translateY(-${currentIndex && currentIndex * 100}vh)`}}
         onClick={handleClickToNextSlide}
       >
         {photos.map((photo, index) => (
