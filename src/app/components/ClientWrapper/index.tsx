@@ -20,15 +20,6 @@ export default function ClientWrapper({ photos }: ClientWrapperProps) {
   const [ open, setOpen ] = useState<boolean>(false)
   const [ navOpen, setNavOpen ] = useState<boolean>(false) 
 
-  // GO BACK TO THE TOP WHEN REFRESHING //
-  useEffect(() => {
-    const target = document.getElementById("photo_1")
-
-    if(target){
-      target.scrollIntoView({ behavior: "smooth", block: "start" })
-    }
-  }, [navOpen])
-
   const handleOpen = () => {
     setOpen(!open)
   }
@@ -37,10 +28,7 @@ export default function ClientWrapper({ photos }: ClientWrapperProps) {
     setNavOpen(!navOpen)
   }
 
-
-
-
-    // SCROLL INTERACTION //
+  // SCROLL INTERACTION //
   const [ currentIndex, setCurrentIndex ] = useState<number>(0);
   const [scrolling, setScrolling] = useState<boolean>(false);
 
@@ -56,12 +44,30 @@ export default function ClientWrapper({ photos }: ClientWrapperProps) {
   };
 
   const prevSlide = () => {
-    setCurrentIndex((prev) => (prev === 0 ? photos.length - 1 : prev - 1));
-  };
+  setCurrentIndex((prevIndex) => {
+    const newIndex = prevIndex === 0 ? photos.length - 1 : prevIndex - 1;
+    
+    const target = document.getElementById(`photo_${photos[newIndex].id}`);
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
 
-  const nextSlide = () => {
-    setCurrentIndex((prev) => (prev === photos.length - 1 ? 0 : prev + 1));
-  };
+    return newIndex;
+  });
+};
+
+const nextSlide = () => {
+  setCurrentIndex((prevIndex) => {
+    const newIndex = prevIndex === photos.length - 1 ? 0 : prevIndex + 1;
+
+    const target = document.getElementById(`photo_${photos[newIndex].id}`);
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    return newIndex;
+  });
+};
 
   const handleScroll = (event: WheelEvent) => {
     if (scrolling || open || navOpen) return;
@@ -106,7 +112,7 @@ export default function ClientWrapper({ photos }: ClientWrapperProps) {
   }, [scrolling, open, navOpen]);
 
   const handleClickToNextSlide = () => {
-    if(open) {
+    if(open || navOpen) {
       return;
     } else {
       nextSlide()
@@ -114,11 +120,14 @@ export default function ClientWrapper({ photos }: ClientWrapperProps) {
   }
 
   const handleNavClickToView = (id: number) => {
-    const target = document.getElementById(`photo_${id}`)
-
-    if(target){
-      target.scrollIntoView({ behavior: "smooth", block: "start" })
-      setCurrentIndex(id - 1)
+    const index = photos.findIndex(photo => photo.id === id);
+  
+    if (index !== -1) {
+      const target = document.getElementById(`photo_${id}`);
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+      setCurrentIndex(index);
     }
   }
 
@@ -150,8 +159,6 @@ export default function ClientWrapper({ photos }: ClientWrapperProps) {
           setActiveId={setActiveId} 
           setOpen={setOpen}
           open={open}
-          navOpen={navOpen}
-          setNavOpen={setNavOpen}
           handleClickToNextSlide={handleClickToNextSlide}
           currentIndex={currentIndex}
         /> 

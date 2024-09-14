@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect } from "react";
 import Image from "next/image";
 import { Photo } from "@/lib/types"
 // styles 
@@ -11,13 +11,11 @@ type AllPhotosProp = {
   setActiveId: (id: number | null) => void;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   open: boolean;
-  navOpen: boolean;
-  setNavOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  currentIndex: number | null;
+  currentIndex: number;
   handleClickToNextSlide: () => void;
 }
 
-export default function AllPhotos({ photos, setActiveId, setOpen, currentIndex, handleClickToNextSlide }: AllPhotosProp) {
+export default function AllPhotos({ photos, setActiveId, setOpen, handleClickToNextSlide }: AllPhotosProp) {
 
   // GET CURRENT PHOTOID //
   const targetRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -64,7 +62,6 @@ export default function AllPhotos({ photos, setActiveId, setOpen, currentIndex, 
     >
       <div 
         className={styles.images_container} 
-        style={{ transform: `translateY(-${currentIndex && currentIndex * 100}vh)`}}
         onClick={handleClickToNextSlide}
       >
         {photos.map((photo, index) => (
