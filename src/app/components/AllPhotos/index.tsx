@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect } from "react";
 import Image from "next/image";
 import { Photo } from "@/lib/types"
 // styles 
@@ -9,9 +9,13 @@ import styles from './AllPhotos.module.css'
 type AllPhotosProp = {
   photos: Photo[];
   setActiveId: (id: number | null) => void;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  open: boolean;
+  currentIndex: number;
+  handleClickToNextSlide: () => void;
 }
 
-export default function AllPhotos({ photos, setActiveId }: AllPhotosProp) {
+export default function AllPhotos({ photos, setActiveId, setOpen, handleClickToNextSlide }: AllPhotosProp) {
 
   // GET CURRENT PHOTOID //
   const targetRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -29,7 +33,10 @@ export default function AllPhotos({ photos, setActiveId }: AllPhotosProp) {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           const id = entry.target.getAttribute("id");
-          if (id) { setActiveId(parseInt(id.replace("photo_", ""), 10)) }
+          if (id) { 
+            const currentPhotoId = parseInt(id.replace("photo_", ""), 10)
+            setActiveId(currentPhotoId)
+          }
         }
       })
     }
@@ -46,47 +53,16 @@ export default function AllPhotos({ photos, setActiveId }: AllPhotosProp) {
       })
     }
 
-  }, [photos])
-
-  // SCROLL INTERACTION //
-  const [ currentIndex, setCurrentIndex ] = useState<number>(0)
-  const [scrolling, setScrolling] = useState<boolean>(false)
-
-  const prevSlide = () => {
-    setCurrentIndex((prev) => (prev === 0 ? photos.length - 1 : prev - 1));
-  };
-
-  const nextSlide = () => {
-    setCurrentIndex((prev) => (prev === photos.length - 1 ? 0 : prev + 1));
-  };
-
-  const handleScroll = (event: WheelEvent) => {
-    if (scrolling) return;
-
-    setScrolling(true)
-
-    if (event.deltaY > 0) {
-      nextSlide();
-    } else {
-      prevSlide();
-    }
-
-    setTimeout(() => setScrolling(false), 1000);
-  };
-
-  useEffect(() => {
-    window.addEventListener('wheel', handleScroll);
-    return () => {
-      window.removeEventListener('wheel', handleScroll);
-    };
-  }, [scrolling]);
-
+  }, [photos, setActiveId])
 
   return (
-    <div className={styles.images_wrapper}>
+    <div 
+      className={styles.images_wrapper} 
+      onClick={() => setOpen(false)}
+    >
       <div 
         className={styles.images_container} 
-        style={{ transform: `translateY(-${currentIndex * 100}vh)`}}
+        onClick={handleClickToNextSlide}
       >
         {photos.map((photo, index) => (
           <div
