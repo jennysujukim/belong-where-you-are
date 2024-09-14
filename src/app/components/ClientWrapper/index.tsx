@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Photo } from "@/lib/types";
 // components
 import Descriptions from "../Descriptions";
@@ -33,15 +33,15 @@ export default function ClientWrapper({ photos }: ClientWrapperProps) {
   const [scrolling, setScrolling] = useState<boolean>(false);
 
   // Throttle function for smooth scrolling
-  const throttle = (func: (...args: any[]) => void, delay: number) => {
-    let lastCall = 0;
-    return (...args: any[]) => {
-      const now = new Date().getTime();
-      if (now - lastCall < delay) return;
-      lastCall = now;
-      func(...args);
-    };
-  };
+  // const throttle = (func: (...args: any[]) => void, delay: number) => {
+  //   let lastCall = 0;
+  //   return (...args: any[]) => {
+  //     const now = new Date().getTime();
+  //     if (now - lastCall < delay) return;
+  //     lastCall = now;
+  //     func(...args);
+  //   };
+  // };
 
   const prevSlide = () => {
   setCurrentIndex((prevIndex) => {
@@ -69,44 +69,74 @@ const nextSlide = () => {
   });
 };
 
-  const handleScroll = (event: WheelEvent) => {
-    if (scrolling || open || navOpen) return;
+  // const handleScroll = (event: WheelEvent) => {
+  //   if (scrolling || open || navOpen) return;
 
-    setScrolling(true);
+  //   setScrolling(true);
 
-    if (event.deltaY > 0) {
-      nextSlide();
-    } else {
-      prevSlide();
-    }
+  //   if (event.deltaY > 0) {
+  //     nextSlide();
+  //   } else {
+  //     prevSlide();
+  //   }
 
-    setTimeout(() => setScrolling(false), 300); // shorter delay
-  };
+  //   setTimeout(() => setScrolling(false), 300); // shorter delay
+  // };
 
-  const handleKeydown = (event: KeyboardEvent) => {
-    if (open || navOpen) return;
+  // const handleKeydown = (event: KeyboardEvent) => {
+  //   if (open || navOpen) return;
 
-    if (event.key === "ArrowRight" || event.key === "ArrowDown") {
-      nextSlide()
-    } else if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
-      prevSlide()
-    }
-  };
+  //   if (event.key === "ArrowRight" || event.key === "ArrowDown") {
+  //     nextSlide()
+  //   } else if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
+  //     prevSlide()
+  //   }
+  // };
 
-  // Add event listener with throttling
+    const handleScroll = useCallback(
+    (event: WheelEvent) => {
+      if (scrolling || open || navOpen) return;
+
+      setScrolling(true);
+
+      if (event.deltaY > 0) {
+        nextSlide();
+      } else {
+        prevSlide();
+      }
+
+      setTimeout(() => setScrolling(false), 300); // shorter delay
+    },
+    [scrolling, open, navOpen, nextSlide, prevSlide]
+  );
+
+  const handleKeydown = useCallback(
+    (event: KeyboardEvent) => {
+      if (open || navOpen) return;
+
+      if (event.key === "ArrowRight" || event.key === "ArrowDown") {
+        nextSlide();
+      } else if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
+        prevSlide();
+      }
+    },
+    [open, navOpen, nextSlide, prevSlide]
+  );
+
+
   useEffect(() => {
-    const throttledScroll = throttle(handleScroll, 300);
+    // const throttledScroll = throttle(handleScroll, 300);
 
     if (!open || !navOpen) {
-      window.addEventListener('wheel', throttledScroll);
+      window.addEventListener('wheel', handleScroll);
       window.addEventListener('keydown', handleKeydown);
     } else {
-      window.removeEventListener('wheel', throttledScroll);
+      window.removeEventListener('wheel', handleScroll);
       window.removeEventListener('keydown', handleKeydown);
     }
 
     return () => {
-      window.removeEventListener('wheel', throttledScroll);
+      window.removeEventListener('wheel', handleScroll);
       window.removeEventListener('keydown', handleKeydown);
     };
   }, [scrolling, open, navOpen, handleKeydown, handleScroll]);

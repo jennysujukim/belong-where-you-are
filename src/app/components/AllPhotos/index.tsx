@@ -42,16 +42,32 @@ export default function AllPhotos({ photos, setActiveId, setOpen, handleClickToN
     }
 
     const observer = new IntersectionObserver(observerCallback, options)
-  
-    targetRefs.current.forEach((ref) => {
-      if (ref) { observer.observe(ref) }
-    })
+
+    const refs = targetRefs.current;
+
+    refs.forEach((ref) => {
+      if (ref) {
+        observer.observe(ref);
+      }
+    });
 
     return () => {
-      targetRefs.current.forEach((ref) => {
-        if (ref) { observer.unobserve(ref) }
-      })
-    }
+      refs.forEach((ref) => {
+        if (ref) {
+          observer.unobserve(ref);
+        }
+      });
+    };
+  
+    // targetRefs.current.forEach((ref) => {
+    //   if (ref) { observer.observe(ref) }
+    // })
+
+    // return () => {
+    //   targetRefs.current.forEach((ref) => {
+    //     if (ref) { observer.unobserve(ref) }
+    //   })
+    // }
 
   }, [photos, setActiveId])
 
