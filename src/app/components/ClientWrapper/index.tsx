@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { Photo } from "@/lib/types";
 // components
 import Descriptions from "../Descriptions";
@@ -29,104 +29,80 @@ export default function ClientWrapper({ photos }: ClientWrapperProps) {
   }
 
   // SCROLL INTERACTION //
-  const [ currentIndex, setCurrentIndex ] = useState<number>(0);
+  const currentIndexRef = useRef<number>(0); 
   const [scrolling, setScrolling] = useState<boolean>(false);
 
-  // Throttle function for smooth scrolling
-  // const throttle = (func: (...args: any[]) => void, delay: number) => {
-  //   let lastCall = 0;
-  //   return (...args: any[]) => {
-  //     const now = new Date().getTime();
-  //     if (now - lastCall < delay) return;
-  //     lastCall = now;
-  //     func(...args);
-  //   };
-  // };
+  const handleScroll = useCallback((e: WheelEvent) => {
 
-  const prevSlide = () => {
-  setCurrentIndex((prevIndex) => {
-    const newIndex = prevIndex === 0 ? photos.length - 1 : prevIndex - 1;
-    
-    const target = document.getElementById(`photo_${photos[newIndex].id}`);
-    if (target) {
-      target.scrollIntoView({ behavior: "smooth", block: "start" });
+    const prevSlide = () => {
+      const newIndex = currentIndexRef.current === 0 ? photos.length - 1 : currentIndexRef.current - 1;
+      currentIndexRef.current = newIndex;
+      
+      const target = document.getElementById(`photo_${photos[newIndex].id}`);
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    };
+
+    const nextSlide = () => {
+      const newIndex = currentIndexRef.current === photos.length - 1 ? 0 : currentIndexRef.current + 1;
+      currentIndexRef.current = newIndex;
+
+      const target = document.getElementById(`photo_${photos[newIndex].id}`);
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    };
+
+    if (scrolling || open || navOpen) return;
+
+    setScrolling(true);
+
+    if (e.deltaY > 0) {
+      nextSlide();
+    } else {
+      prevSlide();
     }
 
-    return newIndex;
-  });
-};
+    setTimeout(() => setScrolling(false), 300);
 
-const nextSlide = () => {
-  setCurrentIndex((prevIndex) => {
-    const newIndex = prevIndex === photos.length - 1 ? 0 : prevIndex + 1;
+  }, [scrolling, open, navOpen, photos]);
+  
 
-    const target = document.getElementById(`photo_${photos[newIndex].id}`);
-    if (target) {
-      target.scrollIntoView({ behavior: "smooth", block: "start" });
+  const handleKeydown = useCallback((e: KeyboardEvent) => {
+
+    const prevSlide = () => {
+      const newIndex = currentIndexRef.current === 0 ? photos.length - 1 : currentIndexRef.current - 1;
+      currentIndexRef.current = newIndex;
+      
+      const target = document.getElementById(`photo_${photos[newIndex].id}`);
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    };
+
+    const nextSlide = () => {
+      const newIndex = currentIndexRef.current === photos.length - 1 ? 0 : currentIndexRef.current + 1;
+      currentIndexRef.current = newIndex;
+
+      const target = document.getElementById(`photo_${photos[newIndex].id}`);
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    };
+
+    if (open || navOpen) return;
+
+    if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+      nextSlide();
+    } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+      prevSlide();
     }
 
-    return newIndex;
-  });
-};
-
-  // const handleScroll = (event: WheelEvent) => {
-  //   if (scrolling || open || navOpen) return;
-
-  //   setScrolling(true);
-
-  //   if (event.deltaY > 0) {
-  //     nextSlide();
-  //   } else {
-  //     prevSlide();
-  //   }
-
-  //   setTimeout(() => setScrolling(false), 300); // shorter delay
-  // };
-
-  // const handleKeydown = (event: KeyboardEvent) => {
-  //   if (open || navOpen) return;
-
-  //   if (event.key === "ArrowRight" || event.key === "ArrowDown") {
-  //     nextSlide()
-  //   } else if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
-  //     prevSlide()
-  //   }
-  // };
-
-    const handleScroll = useCallback(
-    (event: WheelEvent) => {
-      if (scrolling || open || navOpen) return;
-
-      setScrolling(true);
-
-      if (event.deltaY > 0) {
-        nextSlide();
-      } else {
-        prevSlide();
-      }
-
-      setTimeout(() => setScrolling(false), 300); // shorter delay
-    },
-    [scrolling, open, navOpen, nextSlide, prevSlide]
-  );
-
-  const handleKeydown = useCallback(
-    (event: KeyboardEvent) => {
-      if (open || navOpen) return;
-
-      if (event.key === "ArrowRight" || event.key === "ArrowDown") {
-        nextSlide();
-      } else if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
-        prevSlide();
-      }
-    },
-    [open, navOpen, nextSlide, prevSlide]
-  );
+  },[open, navOpen, photos]);
 
 
   useEffect(() => {
-    // const throttledScroll = throttle(handleScroll, 300);
-
     if (!open || !navOpen) {
       window.addEventListener('wheel', handleScroll);
       window.addEventListener('keydown', handleKeydown);
@@ -141,11 +117,18 @@ const nextSlide = () => {
     };
   }, [scrolling, open, navOpen, handleKeydown, handleScroll]);
 
+
   const handleClickToNextSlide = () => {
     if(open || navOpen) {
       return;
     } else {
-      nextSlide()
+      const newIndex = currentIndexRef.current === photos.length - 1 ? 0 : currentIndexRef.current + 1;
+      currentIndexRef.current = newIndex;
+
+      const target = document.getElementById(`photo_${photos[newIndex].id}`);
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
     }
   }
 
@@ -153,11 +136,11 @@ const nextSlide = () => {
     const index = photos.findIndex(photo => photo.id === id);
   
     if (index !== -1) {
+      currentIndexRef.current = index;
       const target = document.getElementById(`photo_${id}`);
       if (target) {
         target.scrollIntoView({ behavior: "smooth", block: "start" });
       }
-      setCurrentIndex(index);
     }
   }
 
@@ -188,9 +171,8 @@ const nextSlide = () => {
           photos={photos} 
           setActiveId={setActiveId} 
           setOpen={setOpen}
-          open={open}
+          setNavOpen={setNavOpen}
           handleClickToNextSlide={handleClickToNextSlide}
-          currentIndex={currentIndex}
         /> 
       </main>
     </>
