@@ -10,12 +10,11 @@ type AllPhotosProp = {
   photos: Photo[];
   setActiveId: (id: number | null) => void;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  open: boolean;
-  currentIndex: number;
+  setNavOpen: React.Dispatch<React.SetStateAction<boolean>>;
   handleClickToNextSlide: () => void;
 }
 
-export default function AllPhotos({ photos, setActiveId, setOpen, handleClickToNextSlide }: AllPhotosProp) {
+export default function AllPhotos({ photos, setActiveId, setOpen, setNavOpen, handleClickToNextSlide }: AllPhotosProp) {
 
   // GET CURRENT PHOTOID //
   const targetRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -58,23 +57,18 @@ export default function AllPhotos({ photos, setActiveId, setOpen, handleClickToN
         }
       });
     };
-  
-    // targetRefs.current.forEach((ref) => {
-    //   if (ref) { observer.observe(ref) }
-    // })
-
-    // return () => {
-    //   targetRefs.current.forEach((ref) => {
-    //     if (ref) { observer.unobserve(ref) }
-    //   })
-    // }
 
   }, [photos, setActiveId])
+
+  const handleClose = () => {
+    setOpen(false)
+    setNavOpen(false)
+  }
 
   return (
     <div 
       className={styles.images_wrapper} 
-      onClick={() => setOpen(false)}
+      onClick={handleClose}
     >
       <div 
         className={styles.images_container} 
