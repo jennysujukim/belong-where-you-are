@@ -1,6 +1,3 @@
-"use client"
-
-import { useState } from "react"
 import { Photo } from "@/lib/types"
 // styles
 import styles from './Descriptions.module.css'
@@ -18,9 +15,7 @@ export default function Descriptions({ photos, activeId, setOpen, open }: Descri
   const formattedId = activePhoto?.id.toString().padStart(2, '0');
   
   return (
-    <div 
-      className={open ? `${styles.container} ${styles.active}` : styles.container}
-    >
+    <div className={open ? `${styles.container} ${styles.active}` : styles.container}>
       {activePhoto &&
         <div 
           className={styles.content}

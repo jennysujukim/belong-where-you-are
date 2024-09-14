@@ -1,6 +1,3 @@
-"use client"
-
-import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Photo } from "@/lib/types";
@@ -21,8 +18,6 @@ type HeaderProps = {
 
 export default function Header({ photos, handleNavOpen, navOpen, handleNavClickToView }: HeaderProps) {
 
-
- 
   return (
     <header className={navOpen ? `${styles.header} ${styles.open}` : styles.header}>
       {navOpen &&

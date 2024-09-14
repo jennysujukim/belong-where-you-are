@@ -53,7 +53,7 @@ export default function AllPhotos({ photos, setActiveId, setOpen, handleClickToN
       })
     }
 
-  }, [photos])
+  }, [photos, setActiveId])
 
   return (
     <div 

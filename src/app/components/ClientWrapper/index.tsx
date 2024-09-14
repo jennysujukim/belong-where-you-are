@@ -109,7 +109,7 @@ const nextSlide = () => {
       window.removeEventListener('wheel', throttledScroll);
       window.removeEventListener('keydown', handleKeydown);
     };
-  }, [scrolling, open, navOpen]);
+  }, [scrolling, open, navOpen, handleKeydown, handleScroll]);
 
   const handleClickToNextSlide = () => {
     if(open || navOpen) {
