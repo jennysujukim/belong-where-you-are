@@ -154,6 +154,7 @@ export default function ClientWrapper({ photos }: ClientWrapperProps) {
       />
       <main>
         <div className={styles.photo_indicator}>
+          <span className={styles.photo_indicator_cta}>Click to read more about the current photo :)</span>
           <Descriptions 
             photos={photos} 
             activeId={activeId}

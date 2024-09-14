@@ -31,8 +31,29 @@
   z-index: 20;
 }
 
+.photo_indicator_cta {
+  padding: 0.1rem 0.3rem;
+  width: fit-content;
+  background-color: var(--white);
+  color: var(--red);
+  text-align: center;
+  display: none;
+  font-size: 0.7rem;
+  position: fixed;
+  bottom: 110px;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  transition: all 300ms ease-in-out;
+}
+
 .photo_indicator:hover {
   bottom: -155px;
+}
+
+.photo_indicator:hover .photo_indicator_cta {
+  display: flex;
 }
 
 @media screen and (min-width: 768px) {
@@ -44,6 +65,23 @@
 
   .photo_indicator:hover {
     bottom: -170px;
+  }
+
+  .photo_indicator_cta {
+    padding: 0.1rem 0.3rem;
+    width: fit-content;
+    background-color: var(--white);
+    color: var(--red);
+    text-align: center;
+    display: none;
+    font-size: 0.8rem;
+    position: fixed;
+    bottom: 135px;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    transition: all 300ms ease-in-out;
   }
 }
 

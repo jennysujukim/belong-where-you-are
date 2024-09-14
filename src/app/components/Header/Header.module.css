@@ -51,6 +51,7 @@
   width: 200px;
   width: 150px;
   height: auto;
+  cursor: pointer;
 }
 
 .header_content_left, .header_content_right {
@@ -60,6 +61,7 @@
   mix-blend-mode: difference;
   font-size: 0.5rem;
   color: var(--red);
+  height: fit-content;
 }
 
 .header_content_left.open, .header_content_right.open {
@@ -121,6 +123,14 @@
   }
   
   .header_content_right {
+    right: var(--spacing-large);
+  }
+
+  .header_content_left.open {
+    left: var(--spacing-large);
+  }
+  
+  .header_content_right.open {
     right: var(--spacing-large);
   }
 
