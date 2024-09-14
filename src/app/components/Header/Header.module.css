@@ -1,13 +1,64 @@
 .header {
-  background: rgba(1, 1, 1, 0.2);
+  background: var(--red);
+  background: rgba(255, 0, 43, 0.8);
+  backdrop-filter: blur(12.5px);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  width: 100%;
+  height: var(--headerbar-height);
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  transition: all 400ms ease-in-out;
+}
+
+.header.open {
+  height: 300px;
+}
+
+.icons_container {
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  mix-blend-mode: difference;
+}
+
+.header_icon {
+  color: var(--red);
+  cursor: pointer;
+}
+
+.header_icon.open {
+  margin-bottom: 0.5rem;
+}
+
+.photos_container {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  gap: 1rem;
+  overflow-x: scroll;
+}
+
+.photo_container {
+  margin-bottom: 0.5rem;
+}
+
+.photo {
+  width: 200px;
+  height: auto;
 }
 
 .header_content_left, .header_content_right {
   position: fixed;
-  top: var(--spacing-large);
+  top: calc(var(--headerbar-height) + 20px);
   z-index: 10;
   user-select: none;
   text-transform: uppercase;
+  mix-blend-mode: difference;
 }
 
 .header_content_left {
@@ -21,12 +72,13 @@
 .logo_container {
   text-align: center;
   position: fixed;
-  top: var(--spacing-large);
+  top: calc(var(--headerbar-height) + 20px);
   left: 0;
   right: 0;
   margin-left: auto;
   margin-right: auto;
   z-index: 10;
+  mix-blend-mode: difference;
 }
 
 .logo { 
