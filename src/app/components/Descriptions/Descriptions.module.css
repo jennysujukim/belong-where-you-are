@@ -28,11 +28,13 @@
   max-height: 60vh;
   width: 80vw;
   max-width: 80vw;
-  background: rgba(250, 250, 250, 0.05);
-  backdrop-filter: blur(15.5px);
+  background: rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(40px);
+  border-radius: 4px;
   overflow-y: scroll;
-  border: 1px solid var(--grey);
+  border: 1px solid var(--red);
   padding: 2rem 1rem;
+  color: var(--yellow);
 }
 
 .content_main {
